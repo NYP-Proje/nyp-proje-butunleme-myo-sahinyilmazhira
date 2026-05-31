@@ -41,8 +41,7 @@ Nesne tabanlı programlama ilkelerine (kapsülleme, tek sorumluluk) uygun, karar
 
 10. Kaynakça
 1. https://codegym.cc/groups/posts/bufferedreader-and-bufferedwriter
-2. https://www.w3schools.com/java/java_try_catch.asp
-3. GitHub Product Documentation - Version Control with Git Systems.
-4. https://www.techcareer.net/courses/git-github-egitimi
+2. https://www.w3schools.com/java/java_try_catch.asp.
+3. https://www.techcareer.net/courses/git-github-egitimi
 
 Geliştirici: Hira Nur Şahinılmaz
