@@ -1,22 +1,23 @@
 GİDER TAKİP UYGULAMASI PROJE RAPORU
 
 1. Özet (Abstract)
+   
 Bu projede, bireysel harcamaların dijital ortamda düzenli, güvenli ve kategorize bir şekilde takip edilmesini sağlayan Java tabanlı bir "Gider Takip Uygulaması" geliştirilmiştir. Uygulama; kullanıcı doğrulaması yaparak kullanıcıların sisteme güvenli giriş yapabilmesini, yeni gider verilerini (tutar, tarih, açıklama, miktar) ekleyebilmesini, mevcut giderleri listelemesini ve tüm bu verilerin metin dosyasında saklanmasını sağlar.
 
-2. Giriş ve Problem Tanımı
+3. Giriş ve Problem Tanımı
 Harcamaların manuel yöntemlerle ya da kağıt üzerinde tutulması veri kaybına, hesaplama hatalarına, hesaplama zorluğuna neden olmaktadır. Bu projenin amacı, finansal kayıt süreçlerini dijitalleştirerek insan kaynaklı hataları minimuma indirmek, veri güvenliğini sağlamak ve kullanıcılara hızlı bir gider takip sistemi sunmaktır.
 
-3. Literatür Taraması
+4. Literatür Taraması
 Mevcut bütçe ve finans yönetimi yazılımları incelendiğinde; esnek ve genişletilebilir veri modellerinin, güçlü bir kullanıcı doğrulama (güvenlik) katmanının ve verilerin kalıcılığını sağlayan dosya/veritabanı sistemlerinin yazılım ömrünü doğrudan artırdığı görülmüştür. Bu projede de modern yazılım standartlarına uygun olarak nesne yönelimli mimari tercih edilmiştir.
 
-4. Sistem Analizi
+5. Sistem Analizi
  İşlevsel Gereksinimler (Functional Requirements):*
     Sisteme kayıtlı kullanıcıların kullanıcı adı ve şifreyle giriş yapabilmesi.
     Kullanıcının harcama tutarı, harcama tarihi ve açıklama detaylarını sisteme girmesi.
     Eklenen giderlerin satır satır listelenebilmesi ve program kapatılsa dahi silinmemesi.
   Sistem Kısıtları:Uygulama, yüksek donanım gücü gerektirmeden her bilgisayarda hızlıca çalışabilmesi amacıyla konsol (terminal) ekranı üzerinden çalışacak şekilde tasarlanmıştır.
 
-5. Sistem Tasarımı (UML Diyagramları)
+6. Sistem Tasarımı (UML Diyagramları)
 Uygulama, Nesne Yönelimli Programlama (OOP) prensiplerine tam uyumlu 4 temel Java sınıfından oluşmaktadır:
 `Main` Sınıfı: Programın başlangıç noktasıdır. Konsol menüsünü ve sınıflar arası veri akışını koordine eder.
 `Gider` Sınıfı (Model): Her bir harcamayı nesneleştiren sınıftır. Veri güvenliği için Kapsülleme (Encapsulation) ilkesi uygulanmış; değişkenler `private` tutularak bunlara erişim `getter` ve `setter` metotlarıyla sağlanmıştır.
