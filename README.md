@@ -45,3 +45,6 @@ Nesne tabanlı programlama ilkelerine (kapsülleme, tek sorumluluk) uygun, karar
 3. https://www.techcareer.net/courses/git-github-egitimi
 
 Geliştirici: Hira Nur Şahinılmaz
+![Proje Ekranı](program_calisma.png)
+![Proje Ekranı](program_calisma2.png)
+![Proje Ekranı](program_calisma3.png)
