@@ -1,53 +1,73 @@
 package Ntp;
 
-import java.io.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class GuvenlikServisi {
-    private String dosyaAdi = "kullanicilar.txt";
-
+    private String url = "jdbc:sqlite:gider_takip.db";
 
     public GuvenlikServisi() {
-        File f = new File(dosyaAdi);
-        if (f.exists()) {
-            f.delete();
+        try {
+            Class.forName("org.sqlite.JDBC");
+            try (Connection conn = DriverManager.getConnection(url);
+                 Statement stmt = conn.createStatement()) {
+                
+                String sql = "CREATE TABLE IF NOT EXISTS kullanicilar ("
+                           + "  kullanici_adi TEXT PRIMARY KEY,"
+                           + "  sifre TEXT NOT NULL"
+                           + ");";
+                stmt.execute(sql);
+            }
+        } catch (Exception e) {
+            System.out.println("Veritabanı başlatılırken hata oluştu: " + e.getMessage());
         }
     }
 
     public boolean kayitliKullaniciVarMi() {
-        File f = new File(dosyaAdi);
-        if (!f.exists() || f.length() == 0) {
-            return false;
+        String sql = "SELECT COUNT(*) AS total FROM kullanicilar";
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            
+            if (rs.next()) {
+                return rs.getInt("total") > 0;
+            }
+        } catch (Exception e) {
+            System.out.println("Kullanıcı kontrolü yapılırken hata oluştu: " + e.getMessage());
         }
-        return true;
+        return false;
     }
 
     public void kayitOl(String kAdi, String sifre) {
-        try {
-            PrintWriter yazici = new PrintWriter(new FileWriter(dosyaAdi));
-            yazici.println(kAdi + ";" + sifre);
-            yazici.close();
+        String sql = "INSERT OR REPLACE INTO kullanicilar(kullanici_adi, sifre) VALUES(?, ?)";
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setString(1, kAdi);
+            pstmt.setString(2, sifre);
+            pstmt.executeUpdate();
         } catch (Exception e) {
-            System.out.println("Kayit esnasinda hata olustu!");
+            System.out.println("Kayıt esnasında hata oluştu: " + e.getMessage());
         }
     }
 
     public boolean girisYap(String kAdi, String sifre) {
-        try {
-            File f = new File(dosyaAdi);
-            if (!f.exists()) return false;
-
-            BufferedReader okuyucu = new BufferedReader(new FileReader(f));
-            String satir = okuyucu.readLine();
-            okuyucu.close();
-
-            if (satir != null) {
-                String[] parcalar = satir.split(";");
-                if (parcalar.length == 2) {
-                    return parcalar[0].equals(kAdi) && parcalar[1].equals(sifre);
+        String sql = "SELECT COUNT(*) AS total FROM kullanicilar WHERE kullanici_adi = ? AND sifre = ?";
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setString(1, kAdi);
+            pstmt.setString(2, sifre);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("total") > 0;
                 }
             }
         } catch (Exception e) {
-            System.out.println("Giris kontrolu yapilirken hata olustu!");
+            System.out.println("Giriş kontrolü yapılırken hata oluştu: " + e.getMessage());
         }
         return false;
     }
