@@ -108,7 +108,7 @@ public class MainFX extends Application {
         root.getChildren().add(card);
         
         Scene scene = new Scene(root, 900, 650);
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        applyCSS(scene);
         stage.setScene(scene);
     }
 
@@ -158,7 +158,7 @@ public class MainFX extends Application {
         root.getChildren().add(card);
         
         Scene scene = new Scene(root, 900, 650);
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        applyCSS(scene);
         stage.setScene(scene);
     }
 
@@ -448,7 +448,7 @@ public class MainFX extends Application {
         });
         
         Scene scene = new Scene(root, 1050, 720);
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        applyCSS(scene);
         stage.setScene(scene);
     }
     
@@ -482,5 +482,29 @@ public class MainFX extends Application {
         alert.setContentText(message);
         // Custom styling for dialogs if they inherit CSS is sometimes tricky, but they will show cleanly
         alert.showAndWait();
+    }
+
+    private void applyCSS(Scene scene) {
+        try {
+            java.net.URL cssURL = getClass().getResource("style.css");
+            if (cssURL != null) {
+                scene.getStylesheets().add(cssURL.toExternalForm());
+            } else {
+                // Try relative file path fallbacks
+                java.io.File cssFile1 = new java.io.File("Ntp/src/Ntp/style.css");
+                if (cssFile1.exists()) {
+                    scene.getStylesheets().add(cssFile1.toURI().toURL().toExternalForm());
+                } else {
+                    java.io.File cssFile2 = new java.io.File("src/Ntp/style.css");
+                    if (cssFile2.exists()) {
+                        scene.getStylesheets().add(cssFile2.toURI().toURL().toExternalForm());
+                    } else {
+                        System.out.println("Warning: style.css not found, running with default styles.");
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println("Error loading CSS: " + ex.getMessage());
+        }
     }
 }
